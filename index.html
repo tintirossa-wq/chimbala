@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Firmeyes | Gestión de Capital y Análisis Operativo para Pequeñas Empresas</title>
+<meta name="description" content="Portal educativo sobre control de tesorería, punto de equilibrio, separación de finanzas personales y corporativas, y mitigación de riesgos de liquidez para pequeñas empresas.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Firmeyes | Gestión de Capital y Análisis Operativo para Pequeñas Empresas">
+<meta property="og:description" content="Contenido educativo sobre finanzas empresariales: flujo de caja, punto de equilibrio, liquidez y gestión de riesgo.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://firmeyes.blog">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Firmeyes",
+  "url": "https://firmeyes.blog",
+  "email": "soporte@firmeyes.blog",
+  "telephone": "+51 942 942 852",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Av. Angamos Oeste 1003",
+    "addressLocality": "Miraflores",
+    "postalCode": "15074",
+    "addressCountry": "PE"
+  },
+  "founder": {"@type": "Person", "name": "Roberto José García García"},
+  "description": "Portal educativo e informativo sobre gestión financiera y análisis operativo para pequeñas empresas."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Análisis de Liquidez: Metodología para Diagnosticar la Salud Financiera de un Pequeño Negocio",
+  "author": {"@type": "Person", "name": "Roberto José García García"},
+  "publisher": {"@type": "Organization", "name": "Firmeyes"},
+  "mainEntityOfPage": "https://firmeyes.blog/#articulo-liquidez",
+  "articleSection": "Finanzas Empresariales",
+  "inLanguage": "es"
+}
+</script>
+
+<style>
+:root{
+  --bg:#0b0f1a;
+  --bg-soft:#11162400;
+  --panel:#ffffff;
+  --ink:#10131c;
+  --muted:#5b6472;
+  --accent:#5b3df6;
+  --accent-2:#00d1a4;
+  --line:#e6e6ee;
+  --grad: linear-gradient(135deg,#5b3df6 0%, #00d1a4 100%);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Inter',sans-serif;
+  background:#f6f6fb;
+  color:var(--ink);
+  overflow-x:hidden;
+}
+.display{font-family:'Space Grotesk',sans-serif;}
+
+/* Scroll progress bar */
+#progress-bar{
+  position:fixed; top:0; left:0; height:4px; width:0%;
+  background:var(--grad); z-index:100; transition:width .1s linear;
+}
+
+/* Reveal on scroll */
+.reveal{opacity:0; transform:translateY(24px); transition:all .7s cubic-bezier(.2,.7,.2,1);}
+.reveal.in{opacity:1; transform:translateY(0);}
+
+/* Animated gradient blob hero */
+.hero-blob{
+  position:absolute; border-radius:50%; filter:blur(70px); opacity:.5;
+  animation:float 9s ease-in-out infinite;
+}
+@keyframes float{
+  0%,100%{transform:translateY(0) translateX(0) scale(1);}
+  50%{transform:translateY(-30px) translateX(20px) scale(1.08);}
+}
+@keyframes floatSlow{
+  0%,100%{transform:translateY(0) rotate(0deg);}
+  50%{transform:translateY(-16px) rotate(6deg);}
+}
+.floaty{animation:floatSlow 6s ease-in-out infinite;}
+
+/* Buttons */
+.btn{
+  display:inline-flex; align-items:center; gap:.5rem;
+  padding:.9rem 1.6rem; border-radius:999px; font-weight:600; font-size:.9rem;
+  transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+  cursor:pointer;
+}
+.btn:active{transform:scale(.96);}
+.btn-primary{background:var(--ink); color:#fff;}
+.btn-primary:hover{transform:translateY(-3px); box-shadow:0 12px 24px -8px rgba(0,0,0,.35);}
+.btn-ghost{border:1.5px solid var(--ink); color:var(--ink); background:transparent;}
+.btn-ghost:hover{background:var(--ink); color:#fff; transform:translateY(-3px);}
+
+/* Cards */
+.tilt-card{
+  background:var(--panel); border:1px solid var(--line); border-radius:1.25rem;
+  transition:transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+}
+.tilt-card:hover{
+  transform:translateY(-6px) rotate(-0.4deg);
+  box-shadow:0 20px 40px -16px rgba(15,10,50,.25);
+  border-color:var(--accent);
+}
+
+/* Tabs (pilares) */
+.tab-btn{
+  padding:.7rem 1.1rem; border-radius:999px; font-size:.85rem; font-weight:600;
+  border:1.5px solid var(--line); color:var(--muted); transition:all .25s ease; cursor:pointer;
+}
+.tab-btn.active{background:var(--ink); color:#fff; border-color:var(--ink);}
+.tab-panel{display:none;}
+.tab-panel.active{display:block; animation:fadeUp .5s ease;}
+@keyframes fadeUp{from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:translateY(0);}}
+
+/* Accordion */
+.acc-item{border-bottom:1px solid var(--line);}
+.acc-trigger{width:100%; text-align:left; padding:1.25rem 0; display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:600;}
+.acc-icon{transition:transform .3s ease;}
+.acc-item.open .acc-icon{transform:rotate(45deg);}
+.acc-panel{max-height:0; overflow:hidden; transition:max-height .4s ease;}
+.acc-item.open .acc-panel{max-height:600px;}
+
+/* Modal */
+.modal-overlay{
+  position:fixed; inset:0; background:rgba(11,15,26,.6); backdrop-filter:blur(4px);
+  display:none; align-items:flex-start; justify-content:center; padding:2.5rem 1rem;
+  overflow-y:auto; z-index:80;
+}
+.modal-overlay.active{display:flex;}
+.modal-box{
+  background:#fff; max-width:760px; width:100%; border-radius:1.25rem; padding:2.25rem;
+  position:relative; animation:popIn .35s cubic-bezier(.2,.9,.3,1.2);
+}
+@keyframes popIn{from{opacity:0; transform:scale(.94) translateY(10px);} to{opacity:1; transform:scale(1) translateY(0);}}
+
+#cookie-banner{position:fixed; bottom:1rem; left:1rem; right:1rem; z-index:90; max-width:640px; margin:0 auto;}
+.badge-dot{width:8px; height:8px; border-radius:999px; background:var(--accent-2); display:inline-block; animation:pulse 1.6s infinite;}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,209,164,.5);} 70%{box-shadow:0 0 0 8px rgba(0,209,164,0);} 100%{box-shadow:0 0 0 0 rgba(0,209,164,0);}}
+
+.counter{font-family:'Space Grotesk',sans-serif; font-weight:700;}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- ===================== NAV ===================== -->
+<header class="fixed top-0 left-0 right-0 z-40 px-4 pt-4">
+  <div class="max-w-6xl mx-auto flex items-center justify-between bg-white/90 backdrop-blur border border-[var(--line)] rounded-full px-5 py-3 shadow-sm">
+    <a href="#hero" class="display font-bold text-lg flex items-center gap-2">
+      <span class="w-2.5 h-2.5 rounded-full" style="background:var(--grad);"></span> Firmeyes
+    </a>
+    <nav class="hidden md:flex items-center gap-7 text-sm font-medium">
+      <a href="#pilares" class="hover:text-[var(--accent)] transition">Artículos</a>
+      <a href="#nosotros" class="hover:text-[var(--accent)] transition">Nosotros</a>
+      <a href="#" onclick="openModal('modal-politicas');return false;" class="hover:text-[var(--accent)] transition">Políticas</a>
+      <a href="#contacto" class="hover:text-[var(--accent)] transition">Contacto</a>
+    </nav>
+    <a href="#contacto" class="btn btn-primary !py-2 !px-4 text-xs">Escríbenos</a>
+    <button id="menu-btn" class="md:hidden text-2xl ml-3" onclick="toggleMobileMenu()" aria-label="Menú">☰</button>
+  </div>
+  <div id="mobile-menu" class="hidden md:hidden max-w-6xl mx-auto bg-white border border-[var(--line)] rounded-2xl mt-2 px-5 py-4 flex flex-col gap-2 text-sm font-medium shadow-sm">
+    <a href="#pilares" onclick="toggleMobileMenu()">Artículos</a>
+    <a href="#nosotros" onclick="toggleMobileMenu()">Nosotros</a>
+    <a href="#" onclick="openModal('modal-politicas');toggleMobileMenu();return false;">Políticas</a>
+    <a href="#contacto" onclick="toggleMobileMenu()">Contacto</a>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section id="hero" class="relative pt-40 pb-24 px-5 overflow-hidden">
+  <div class="hero-blob w-80 h-80" style="background:var(--accent); top:-4rem; left:-4rem;"></div>
+  <div class="hero-blob w-72 h-72" style="background:var(--accent-2); bottom:-6rem; right:-2rem; animation-delay:2s;"></div>
+
+  <div class="max-w-4xl mx-auto text-center relative">
+    <div class="inline-flex items-center gap-2 bg-white border border-[var(--line)] rounded-full px-4 py-1.5 text-xs font-medium mb-6 shadow-sm reveal">
+      <span class="badge-dot"></span> Contenido educativo · sin promesas, solo metodología
+    </div>
+    <h1 class="display text-4xl md:text-6xl font-bold leading-[1.05] mb-6 reveal">
+      Entiende el capital<br>de tu negocio <span style="background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;">como un analista.</span>
+    </h1>
+    <p class="text-lg text-[var(--muted)] max-w-2xl mx-auto mb-9 reveal">
+      Firmeyes es un portal informativo sobre tesorería, punto de equilibrio y liquidez para pequeños
+      negocios. Nada de fórmulas mágicas: marcos de análisis reales, explicados con claridad.
+    </p>
+    <div class="flex flex-wrap justify-center gap-4 reveal">
+      <a href="#pilares" class="btn btn-primary">Explorar los pilares →</a>
+      <a href="#articulo-liquidez" class="btn btn-ghost">Leer el artículo</a>
+    </div>
+
+    <div class="grid grid-cols-3 gap-4 max-w-lg mx-auto mt-14 reveal">
+      <div>
+        <p class="counter text-3xl" data-target="4">0</p>
+        <p class="text-xs text-[var(--muted)] mt-1">Pilares de estudio</p>
+      </div>
+      <div>
+        <p class="counter text-3xl" data-target="600">0</p>
+        <p class="text-xs text-[var(--muted)] mt-1">Palabras por artículo</p>
+      </div>
+      <div>
+        <p class="counter text-3xl" data-target="0">100% ind.</p>
+        <p class="text-xs text-[var(--muted)] mt-1">Contenido independiente</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== NOSOTROS ===================== -->
+<section id="nosotros" class="px-5 py-20 bg-white border-y border-[var(--line)]">
+  <div class="max-w-3xl mx-auto text-center reveal">
+    <p class="text-xs font-semibold uppercase tracking-widest mb-3" style="color:var(--accent);">Quiénes somos</p>
+    <h2 class="display text-3xl md:text-4xl font-bold mb-6">Un portal editorial, no un producto financiero</h2>
+    <p class="text-[var(--muted)] leading-relaxed mb-4">
+      Firmeyes es un portal editorial independiente dedicado a la divulgación de conceptos de gestión
+      financiera aplicables a pequeñas empresas. Publicamos marcos de análisis y metodologías que
+      ayudan al lector a comprender su propia situación financiera, sin ofrecer productos financieros,
+      asesoría personalizada ni gestión de fondos de terceros.
+    </p>
+    <p class="text-[var(--muted)] leading-relaxed">
+      El contenido es revisado editorialmente antes de su publicación. Firmeyes no está afiliado a
+      ninguna entidad bancaria, cooperativa de ahorro, casa de bolsa ni plataforma de inversión.
+    </p>
+  </div>
+</section>
+
+<!-- ===================== PILARES (TABS INTERACTIVOS) ===================== -->
+<section id="pilares" class="px-5 py-24 max-w-5xl mx-auto">
+  <div class="text-center mb-12 reveal">
+    <p class="text-xs font-semibold uppercase tracking-widest mb-3" style="color:var(--accent);">Los 4 pilares</p>
+    <h2 class="display text-3xl md:text-4xl font-bold">Estructura de aprendizaje</h2>
+  </div>
+
+  <div class="flex flex-wrap justify-center gap-3 mb-10 reveal">
+    <button class="tab-btn active" onclick="switchTab(0)">01 · Flujo de Caja</button>
+    <button class="tab-btn" onclick="switchTab(1)">02 · Punto de Equilibrio</button>
+    <button class="tab-btn" onclick="switchTab(2)">03 · Separación de Finanzas</button>
+    <button class="tab-btn" onclick="switchTab(3)">04 · Riesgo de Liquidez</button>
+  </div>
+
+  <div class="tilt-card p-8 md:p-10 reveal">
+    <div class="tab-panel active" id="tab-0">
+      <h3 class="display text-2xl font-bold mb-3">Flujo de Caja y Control de Egreso Operativo</h3>
+      <p class="text-[var(--muted)] leading-relaxed">
+        El flujo de caja es el registro cronológico de entradas y salidas de dinero de un negocio,
+        independientemente de si esas operaciones ya fueron facturadas o cobradas. Se abordan métodos
+        de proyección a corto y mediano plazo, clasificación de egresos fijos y variables, y calendarios
+        de pago que eviten desajustes de liquidez.
+      </p>
+    </div>
+    <div class="tab-panel" id="tab-1">
+      <h3 class="display text-2xl font-bold mb-3">Punto de Equilibrio y Margen de Contribución Real</h3>
+      <p class="text-[var(--muted)] leading-relaxed">
+        El punto de equilibrio indica el volumen de ventas necesario para cubrir la totalidad de los
+        costos fijos y variables de una operación. Se desarrolla el cálculo del margen de contribución
+        por unidad y su relación con la sostenibilidad de un producto o servicio.
+      </p>
+    </div>
+    <div class="tab-panel" id="tab-2">
+      <h3 class="display text-2xl font-bold mb-3">Separación entre Finanzas Corporativas y Personales</h3>
+      <p class="text-[var(--muted)] leading-relaxed">
+        La mezcla de cuentas personales y del negocio es uno de los errores estructurales más
+        frecuentes en la pequeña empresa. Se explican prácticas de registro contable básico y criterios
+        para definir un "sueldo del propietario" como partida formal.
+      </p>
+    </div>
+    <div class="tab-panel" id="tab-3">
+      <h3 class="display text-2xl font-bold mb-3">Modelos de Contingencia y Mitigación de Riesgos</h3>
+      <p class="text-[var(--muted)] leading-relaxed">
+        Planificación ante escenarios adversos: caídas de ingresos, incrementos de costos o
+        interrupciones operativas. Se abordan los fundamentos de un fondo de reserva operativo y el
+        análisis de sensibilidad como herramienta de decisión.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ARTÍCULO ===================== -->
+<section id="articulo-liquidez" class="px-5 py-24 bg-white border-y border-[var(--line)]">
+  <div class="max-w-3xl mx-auto">
+    <div class="reveal mb-10">
+      <p class="text-xs font-semibold uppercase tracking-widest mb-3" style="color:var(--accent);">Artículo destacado</p>
+      <h2 class="display text-3xl md:text-4xl font-bold leading-snug">
+        Análisis de Liquidez: Metodología para Diagnosticar la Salud Financiera de un Pequeño Negocio
+      </h2>
+    </div>
+
+    <div class="reveal space-y-6 leading-relaxed text-[var(--ink)]">
+      <p>
+        La liquidez es la capacidad de una empresa para cumplir con sus obligaciones de corto plazo
+        utilizando los recursos disponibles de forma inmediata o casi inmediata. A diferencia de la
+        rentabilidad —que mide si un negocio genera ganancias— la liquidez mide si ese negocio puede
+        sostener su operación día a día sin verse forzado a vender activos, recurrir a deuda de
+        emergencia o incumplir pagos. Un negocio puede ser rentable en el papel y, al mismo tiempo,
+        enfrentar una crisis de liquidez si sus cobros están mal distribuidos en el tiempo respecto a
+        sus pagos.
+      </p>
+
+      <h3 class="display text-xl font-bold mt-8">¿Por qué la liquidez es distinta a la rentabilidad?</h3>
+      <p>
+        Es común que un propietario de pequeño negocio revise sus utilidades mensuales y asuma que, si
+        estas son positivas, el negocio está en buena posición. Sin embargo, la utilidad contable se
+        calcula sobre ingresos y gastos devengados, no necesariamente cobrados o pagados en efectivo.
+        Una empresa puede reportar ganancias mientras enfrenta un desfase severo entre el momento en
+        que factura una venta y el momento en que efectivamente recibe el pago correspondiente. Este
+        desfase es, en la práctica, una de las causas más frecuentes de cierre de pequeños negocios que,
+        en apariencia, eran rentables.
+      </p>
+
+      <h3 class="display text-xl font-bold mt-8">Variables de control para el diagnóstico</h3>
+      <p><strong>Razón corriente (Current Ratio).</strong> Se obtiene dividiendo el activo corriente
+        (efectivo, cuentas por cobrar a corto plazo, inventario de rápida rotación) entre el pasivo
+        corriente (obligaciones que vencen dentro de los siguientes doce meses). Un resultado superior a
+        1 indica, en principio, que la empresa cuenta con recursos suficientes para cubrir sus
+        compromisos inmediatos, aunque el valor óptimo varía según el sector.</p>
+      <p><strong>Prueba ácida (Quick Ratio).</strong> Es una variante más estricta de la razón
+        corriente, que excluye el inventario del cálculo por considerarse el activo de menor liquidez.
+        Resulta especialmente útil en negocios cuyo inventario tiene rotación lenta o valor de reventa
+        incierto.</p>
+      <p><strong>Ciclo de conversión de efectivo.</strong> Mide el número de días que transcurren desde
+        que la empresa paga a sus proveedores hasta que efectivamente cobra a sus clientes. Se compone
+        de días de inventario, días de cuentas por cobrar y días de cuentas por pagar.</p>
+
+      <h3 class="display text-xl font-bold mt-8">Metodología de diagnóstico paso a paso</h3>
+      <p><strong>Paso 1.</strong> Consolidar el balance general y el estado de flujo de efectivo de los
+        últimos tres a seis meses. Sin estos documentos, cualquier análisis de liquidez se basa en
+        percepciones y no en datos verificables.</p>
+      <p><strong>Paso 2.</strong> Calcular la razón corriente, la prueba ácida y el ciclo de conversión
+        de efectivo de forma periódica —mensual o trimestral— para identificar tendencias, no solo
+        valores puntuales.</p>
+      <p><strong>Paso 3.</strong> Contrastar los resultados con el promedio del sector, ya que negocios
+        de servicios, comercio minorista e industria manufacturera tienen estructuras de capital de
+        trabajo muy distintas entre sí.</p>
+      <p><strong>Paso 4.</strong> Diferenciar entre una tensión de liquidez puntual y una brecha
+        estructural, en la que los egresos recurrentes superan de forma sistemática a los ingresos
+        cobrados en el mismo periodo.</p>
+      <p><strong>Paso 5.</strong> Definir acciones correctivas: renegociar plazos con proveedores,
+        revisar políticas de crédito, ajustar niveles de inventario o constituir gradualmente un fondo
+        de reserva operativo, idealmente junto a un profesional contable.</p>
+
+      <h3 class="display text-xl font-bold mt-8">Buenas prácticas para la toma de decisiones contables</h3>
+      <ul class="list-disc pl-6 space-y-2">
+        <li>Mantener registros contables separados entre las finanzas personales y las del negocio.</li>
+        <li>Actualizar los indicadores de liquidez con periodicidad fija, no solo ante una dificultad de pago.</li>
+        <li>Documentar los supuestos usados en cada proyección de flujo de caja.</li>
+        <li>Evitar decisiones basadas exclusivamente en el saldo bancario puntual, sin considerar obligaciones pendientes.</li>
+        <li>Consultar a un profesional contable o financiero autorizado antes de decisiones estructurales relevantes.</li>
+      </ul>
+
+      <h3 class="display text-xl font-bold mt-8">Conclusión</h3>
+      <p>
+        El análisis de liquidez no busca predecir el éxito financiero de un negocio, sino ofrecer una
+        fotografía objetiva de su capacidad de pago en el corto plazo. Comprender la diferencia entre
+        rentabilidad y liquidez, calcular indicadores de forma periódica y actuar sobre brechas
+        estructurales antes de que se conviertan en crisis de caja son prácticas de una gestión
+        financiera responsable. Este artículo tiene un propósito exclusivamente educativo y no
+        constituye asesoría financiera personalizada.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FAQ (ACORDEÓN) ===================== -->
+<section class="px-5 py-24 max-w-3xl mx-auto">
+  <div class="text-center mb-10 reveal">
+    <p class="text-xs font-semibold uppercase tracking-widest mb-3" style="color:var(--accent);">Preguntas frecuentes</p>
+    <h2 class="display text-3xl font-bold">Antes de seguir leyendo</h2>
+  </div>
+  <div class="reveal">
+    <div class="acc-item">
+      <button class="acc-trigger" onclick="toggleAcc(this)">¿Firmeyes ofrece asesoría de inversión? <span class="acc-icon">+</span></button>
+      <div class="acc-panel"><p class="pb-5 text-[var(--muted)] leading-relaxed">No. Firmeyes es un portal informativo. No ofrecemos asesoría de inversión personalizada, ni gestionamos fondos ni captamos dinero del público.</p></div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-trigger" onclick="toggleAcc(this)">¿Puedo confiar mis datos bancarios al formulario de contacto? <span class="acc-icon">+</span></button>
+      <div class="acc-panel"><p class="pb-5 text-[var(--muted)] leading-relaxed">No debe hacerlo ni se lo pedimos. El formulario solo recoge nombre, correo y mensaje para consultas editoriales.</p></div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-trigger" onclick="toggleAcc(this)">¿El contenido garantiza resultados financieros? <span class="acc-icon">+</span></button>
+      <div class="acc-panel"><p class="pb-5 text-[var(--muted)] leading-relaxed">No. El contenido es educativo y conceptual. Ninguna publicación garantiza rentabilidad, ahorro ni resultado financiero alguno.</p></div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-trigger" onclick="toggleAcc(this)">¿Cómo se financia el sitio? <span class="acc-icon">+</span></button>
+      <div class="acc-panel"><p class="pb-5 text-[var(--muted)] leading-relaxed">A través de publicidad de terceros (como Google AdSense), sin costo para el lector y sin venta de productos financieros.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACTO ===================== -->
+<section id="contacto" class="px-5 py-24 bg-white border-t border-[var(--line)]">
+  <div class="max-w-2xl mx-auto">
+    <div class="text-center mb-10 reveal">
+      <p class="text-xs font-semibold uppercase tracking-widest mb-3" style="color:var(--accent);">Contacto</p>
+      <h2 class="display text-3xl font-bold mb-3">Escríbenos</h2>
+      <p class="text-[var(--muted)]">
+        Este formulario es exclusivamente para consultas editoriales. Firmeyes nunca solicita datos
+        financieros, contraseñas ni pagos por este medio.
+      </p>
+    </div>
+    <form id="contact-form" class="grid gap-4 reveal" onsubmit="return handleContactSubmit(event)">
+      <div>
+        <label class="block text-sm font-medium mb-1" for="c-name">Nombre</label>
+        <input id="c-name" name="name" type="text" required autocomplete="off"
+               class="w-full border border-[var(--line)] rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[var(--accent)] transition">
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1" for="c-email">Correo electrónico</label>
+        <input id="c-email" name="email" type="email" required autocomplete="off"
+               class="w-full border border-[var(--line)] rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[var(--accent)] transition">
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1" for="c-message">Mensaje</label>
+        <textarea id="c-message" name="message" rows="4" required autocomplete="off"
+               class="w-full border border-[var(--line)] rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[var(--accent)] transition"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary w-fit">Enviar mensaje →</button>
+      <p id="contact-status" class="text-sm hidden mt-1 text-[var(--accent-2)] font-medium"></p>
+    </form>
+    <p class="text-xs mt-6 text-[var(--muted)] text-center">
+      También puede escribirnos a <a href="mailto:soporte@firmeyes.blog" class="underline">soporte@firmeyes.blog</a>
+    </p>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="px-5 py-14 bg-[var(--ink)] text-white">
+  <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-10">
+    <div>
+      <p class="display text-xl font-bold mb-3">Firmeyes</p>
+      <p class="text-sm leading-relaxed text-white/70">
+        Titular: Roberto José García García<br>
+        Dominio: firmeyes.blog<br>
+        Correo de soporte: <a href="mailto:soporte@firmeyes.blog" class="underline">soporte@firmeyes.blog</a><br>
+        Dirección comercial: Av. Angamos Oeste 1003, Miraflores 15074, Perú<br>
+        Teléfono de contacto: +51 942 942 852
+      </p>
+    </div>
+    <div>
+      <p class="text-sm font-semibold mb-3 uppercase tracking-wide text-white/60">Enlaces legales</p>
+      <ul class="space-y-2 text-sm">
+        <li><a href="#" onclick="openModal('modal-privacidad');return false;" class="underline">Política de Privacidad</a></li>
+        <li><a href="#" onclick="openModal('modal-terminos');return false;" class="underline">Términos y Condiciones</a></li>
+        <li><a href="#" onclick="openModal('modal-descargo');return false;" class="underline">Descargo de Responsabilidad</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="max-w-6xl mx-auto pt-8 mt-8 border-t border-white/10 text-xs text-white/50">
+    © <span id="year"></span> Firmeyes. Todos los derechos reservados. Contenido con fines exclusivamente educativos.
+  </div>
+</footer>
+
+<!-- ===================== MODALES ===================== -->
+<div class="modal-overlay" id="modal-politicas">
+  <div class="modal-box">
+    <button class="absolute top-4 right-4 text-xl" onclick="closeModal('modal-politicas')" aria-label="Cerrar">✕</button>
+    <h2 class="display text-2xl font-bold mb-6">Políticas</h2>
+    <ul class="space-y-3 text-sm">
+      <li><a href="#" onclick="switchModal('modal-politicas','modal-privacidad');return false;" class="underline">Política de Privacidad</a></li>
+      <li><a href="#" onclick="switchModal('modal-politicas','modal-terminos');return false;" class="underline">Términos y Condiciones</a></li>
+      <li><a href="#" onclick="switchModal('modal-politicas','modal-descargo');return false;" class="underline">Descargo de Responsabilidad</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-privacidad">
+  <div class="modal-box">
+    <button class="absolute top-4 right-4 text-xl" onclick="closeModal('modal-privacidad')" aria-label="Cerrar">✕</button>
+    <h2 class="display text-2xl font-bold mb-6">Política de Privacidad</h2>
+    <div class="text-sm space-y-4 leading-relaxed text-[var(--muted)]">
+      <p><strong>Responsable del tratamiento:</strong> Roberto José García García, titular de firmeyes.blog, con domicilio en Av. Angamos Oeste 1003, Miraflores 15074, Perú.</p>
+      <p><strong>Datos que recopilamos:</strong> únicamente nombre, correo electrónico y mensaje proporcionados voluntariamente en el formulario de contacto. No solicitamos datos bancarios, contraseñas ni información financiera.</p>
+      <p><strong>Finalidad:</strong> responder a su consulta editorial. No se ceden datos a terceros salvo obligación legal.</p>
+      <p><strong>Cookies:</strong> este sitio utiliza cookies técnicas y de análisis. Puede gestionar sus preferencias desde el aviso de cookies.</p>
+      <p><strong>Publicidad:</strong> este sitio puede mostrar anuncios mediante redes de terceros, como Google AdSense, que pueden usar cookies para publicidad basada en visitas previas. Puede inhabilitarla desde la Configuración de Anuncios de Google.</p>
+      <p><strong>Derechos del usuario:</strong> puede solicitar acceso, rectificación o eliminación de sus datos escribiendo a soporte@firmeyes.blog.</p>
+      <p class="text-xs">Última actualización: <span class="js-today"></span></p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-terminos">
+  <div class="modal-box">
+    <button class="absolute top-4 right-4 text-xl" onclick="closeModal('modal-terminos')" aria-label="Cerrar">✕</button>
+    <h2 class="display text-2xl font-bold mb-6">Términos y Condiciones</h2>
+    <div class="text-sm space-y-4 leading-relaxed text-[var(--muted)]">
+      <p>El acceso y uso de firmeyes.blog implica la aceptación de estos términos y condiciones.</p>
+      <p><strong>Naturaleza del contenido:</strong> informativo y educativo. No constituye asesoría financiera, legal, contable ni de inversión personalizada.</p>
+      <p><strong>Propiedad intelectual:</strong> los textos, gráficos y demás materiales son propiedad de Firmeyes o de sus autores, y no pueden reproducirse sin autorización.</p>
+      <p><strong>Uso permitido:</strong> el usuario se compromete a un uso lícito del sitio, sin dañar ni sobrecargar el portal.</p>
+      <p><strong>Enlaces externos:</strong> Firmeyes no se responsabiliza por el contenido de sitios de terceros enlazados.</p>
+      <p><strong>Modificaciones:</strong> estos términos pueden actualizarse; la versión vigente se publica en esta sección.</p>
+      <p><strong>Legislación aplicable:</strong> legislación peruana, sin perjuicio de normas de protección al consumidor de la jurisdicción del usuario.</p>
+      <p class="text-xs">Última actualización: <span class="js-today"></span></p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-descargo">
+  <div class="modal-box">
+    <button class="absolute top-4 right-4 text-xl" onclick="closeModal('modal-descargo')" aria-label="Cerrar">✕</button>
+    <h2 class="display text-2xl font-bold mb-6">Descargo de Responsabilidad</h2>
+    <div class="text-sm space-y-4 leading-relaxed text-[var(--muted)]">
+      <p>Firmeyes.blog, liderado por Roberto José García García, es un portal digital estrictamente informativo, educativo e instructivo sobre gestión financiera, control de costos y análisis operativo para pequeñas empresas.</p>
+      <p>Firmeyes.blog <strong>no presta servicios de intermediación financiera</strong>, <strong>no capta dinero del público</strong>, <strong>no ofrece asesoría de inversión personalizada</strong> y <strong>no otorga créditos ni financiamiento</strong> directo o indirecto.</p>
+      <p>Ningún contenido debe interpretarse como recomendación de inversión, garantía de resultados financieros, ni sustituto de la asesoría de un profesional autorizado.</p>
+      <p>Las decisiones tomadas con base en este contenido son responsabilidad exclusiva del lector. Firmeyes y su titular no asumen responsabilidad por pérdidas o daños derivados de su uso.</p>
+      <p>Ante cualquier duda sobre un caso particular, se recomienda consultar a un profesional debidamente acreditado.</p>
+      <p class="text-xs">Última actualización: <span class="js-today"></span></p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== COOKIE BANNER ===================== -->
+<div id="cookie-banner" class="hidden">
+  <div class="bg-[var(--ink)] text-white rounded-2xl px-5 py-4 flex flex-col sm:flex-row items-center gap-4 text-sm shadow-2xl">
+    <p class="flex-1">
+      Usamos cookies técnicas y de análisis. Más info en nuestra
+      <a href="#" onclick="openModal('modal-privacidad');return false;" class="underline">Política de Privacidad</a>.
+    </p>
+    <div class="flex gap-2 shrink-0">
+      <button onclick="setCookieConsent(false)" class="px-4 py-2 rounded-full text-xs border border-white/30">Rechazar</button>
+      <button onclick="setCookieConsent(true)" class="px-4 py-2 rounded-full text-xs font-semibold" style="background:var(--grad);">Aceptar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+document.querySelectorAll('.js-today').forEach(function(el){
+  el.textContent = new Date().toLocaleDateString('es-PE', {year:'numeric', month:'long', day:'numeric'});
+});
+
+/* Scroll progress bar */
+window.addEventListener('scroll', function(){
+  var h = document.documentElement;
+  var scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+  document.getElementById('progress-bar').style.width = scrolled + '%';
+});
+
+/* Reveal on scroll */
+var revealEls = document.querySelectorAll('.reveal');
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){ entry.target.classList.add('in'); }
+  });
+}, {threshold:0.15});
+revealEls.forEach(function(el){ io.observe(el); });
+
+/* Animated counters */
+var counters = document.querySelectorAll('.counter[data-target]');
+var counted = false;
+function runCounters(){
+  if(counted) return;
+  counted = true;
+  counters.forEach(function(c){
+    var target = parseInt(c.getAttribute('data-target'), 10);
+    if(isNaN(target) || target === 0) return;
+    var current = 0;
+    var step = Math.max(1, Math.round(target/40));
+    var iv = setInterval(function(){
+      current += step;
+      if(current >= target){ current = target; clearInterval(iv); }
+      c.textContent = current + (target === 600 ? '+' : '');
+    }, 25);
+  });
+}
+var heroObserver = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if(e.isIntersecting) runCounters(); });
+}, {threshold:0.5});
+heroObserver.observe(document.getElementById('hero'));
+
+/* Tabs */
+function switchTab(i){
+  document.querySelectorAll('.tab-btn').forEach(function(b,idx){ b.classList.toggle('active', idx===i); });
+  document.querySelectorAll('.tab-panel').forEach(function(p,idx){ p.classList.toggle('active', idx===i); });
+}
+
+/* Accordion */
+function toggleAcc(btn){
+  var item = btn.parentElement;
+  var wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.acc-item').forEach(function(i){ i.classList.remove('open'); });
+  if(!wasOpen){ item.classList.add('open'); }
+}
+
+/* Modals */
+function openModal(id){ document.getElementById(id).classList.add('active'); }
+function closeModal(id){ document.getElementById(id).classList.remove('active'); }
+function switchModal(fromId, toId){ closeModal(fromId); openModal(toId); }
+document.querySelectorAll('.modal-overlay').forEach(function(overlay){
+  overlay.addEventListener('click', function(e){ if(e.target === overlay) overlay.classList.remove('active'); });
+});
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape'){ document.querySelectorAll('.modal-overlay.active').forEach(function(m){ m.classList.remove('active'); }); }
+});
+
+/* Mobile menu */
+function toggleMobileMenu(){ document.getElementById('mobile-menu').classList.toggle('hidden'); }
+
+/* Contact form */
+function handleContactSubmit(e){
+  e.preventDefault();
+  var status = document.getElementById('contact-status');
+  status.textContent = 'Gracias por su mensaje. Le responderemos a soporte@firmeyes.blog a la brevedad.';
+  status.classList.remove('hidden');
+  e.target.reset();
+  return false;
+}
+
+/* Cookie consent */
+(function(){
+  var consent = localStorage.getItem('firmeyes_cookie_consent');
+  if(!consent){ document.getElementById('cookie-banner').classList.remove('hidden'); }
+})();
+function setCookieConsent(accepted){
+  localStorage.setItem('firmeyes_cookie_consent', accepted ? 'accepted' : 'rejected');
+  document.getElementById('cookie-banner').classList.add('hidden');
+}
+</script>
+
+</body>
+</html>
